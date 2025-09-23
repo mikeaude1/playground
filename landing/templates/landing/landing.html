@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hola desde Django</title>
+</head>
+<body>
+  <h1>Home</h1>
+  <h2>{{name|center:"20"}}</h2>
+  <!-- Esto es un comentario -->
+  <p style="color: red; font-size: 20px; margin-left: 70%;">Fecha de hoy: {{today|date:"d/m/Y"}}</p>
+  <ul>
+  {% for key, value in my_dic.items %}
+  {% if key == 'nombre' %}
+    <li style="color: blue; font-size: 20px;">{{key|upper}}: {{value}}</li>
+  {% elif key == 'apellido' %}
+    <li style="color: green; font-size: 20px;">{{key|upper}}: {{value}}</li>
+  {% elif key == 'edad' %}
+    <li style="color: red; font-size: 20px;">{{key|upper}}: {{value}}</li>
+  {% endif %}
+  {% endfor %}
+  </ul>
+</body>
+</html>
