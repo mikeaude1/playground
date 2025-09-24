@@ -1,39 +1,63 @@
 from django.shortcuts import render
-from django.http import HttpResponse,HttpResponseNotFound,HttpResponseRedirect
-from django.urls import reverse
+from django.http import Http404
 
-# Create your views here.
 
 days_of_week = {
-    "Monday": "<p>Ser o no ser <strong>esa es la cuestion</strong></p>",
-    "Tuesday": "<p>Pienso luego <strong>existo</strong></p>",
-    "Wednesday": "<p>Vive como <strong>si fuera el ultimo dia</strong></p>",
-    "Thursday": "<p>Da un poquito mas <strong>todos los dias</strong></p>",
-    "Friday": "<p>Solo sé <strong>que no sé nada</strong></p>",
-    "Saturday": "<p>Y en el fin del mundo, <strong>será mejor</strong></p>",
-    "Sunday": "<p>Vive y <strong>deja vivir</strong></p>"
+    1: 'Lunes',
+    2: 'Martes',
+    3: 'Miércoles',
+    4: 'Jueves',
+    5: 'Viernes',
+    6: 'Sábado',
+    7: 'Domingo',
+    'lunes': 'Lunes',
+    'martes': 'Martes',
+    'miércoles': 'Miércoles',
+    'jueves': 'Jueves',
+    'viernes': 'Viernes',
+    'sábado': 'Sábado',
+    'domingo': 'Domingo',
+}
+
+# Frases para cada día
+frases = {
+    'Lunes': '¡Comienza la semana con energía!',
+    'Martes': 'Sigue avanzando, ya es martes.',
+    'Miércoles': 'Mitad de semana, ¡ánimo!',
+    'Jueves': 'Ya casi es viernes, no te rindas.',
+    'Viernes': '¡Por fin viernes!',
+    'Sábado': 'Disfruta tu sábado.',
+    'Domingo': 'Relájate, es domingo.',
 }
 
 def index(request):
-    list_items=""
-    days = list(days_of_week.keys())
-    for day in days:
-        list_items += f"<li><a href=\"{reverse('day-number', args=[days.index(day) + 1])}\">{day}</a></li>"
-    return HttpResponse(f"<ul>{list_items}</ul>")
+  try:
+    dias = [1, 2, 3, 4, 5, 6, 7, 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']
+    days = []
+    for d in dias:
+        days.append({
+            'value': d,
+            'type': 'int' if isinstance(d, int) else 'str',
+            'name': days_of_week[d]
+        })
+    return render(request, 'quotes/index.html', {'days': days})
+  except KeyError :
+    render(request, '404.html', status=404)
 
-def days_week_whit_number(request, day):
-  days_list = list(days_of_week.keys())
-  if 1 <= day <= len(days_list):
-    day_name = days_list[day - 1]
-    return HttpResponse(days_of_week[day_name])
-  # Número fuera de rango: redirigimos a la ruta de string con 'Sunday'
-  redirect_path = reverse('day-string', kwargs={'day': 'Sunday'})
-  return HttpResponseRedirect(redirect_path)
-
+# Vista para día por número
 def days_week(request, day):
-  # Normalizamos el texto del día para que sea insensible a mayúsculas/minúsculas
-  day_norm = str(day).strip().capitalize()
-  quote_text = days_of_week.get(day_norm)
-  if quote_text is None:
-    return HttpResponseNotFound('Day not found')
-  return HttpResponse(quote_text)
+  try:
+    nombre = days_of_week.get(day)
+    frase = frases.get(nombre, '¡Buen día!')
+    return render(request, 'quotes/day.html', {'nombre': nombre, 'frase': frase})
+  except KeyError :
+    render(request, '404.html', status=404)
+
+# Vista para día por string
+def days_week_whit_str(request, day):
+  try:
+    nombre = days_of_week.get(day)
+    frase = frases.get(nombre, '¡Buen día!')
+    return render(request, 'quotes/day.html', {'nombre': nombre, 'frase': frase})
+  except KeyError :
+    render(request, '404.html', status=404)

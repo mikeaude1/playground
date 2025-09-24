@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hola desde Django</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Landing Page{% endblock %}
+{% block content %}
   <h1>Home</h1>
   <h2>{{name|center:"20"}}</h2>
   <!-- Esto es un comentario -->
@@ -21,5 +16,12 @@
   {% endif %}
   {% endfor %}
   </ul>
-</body>
-</html>
+  <div>
+    <h5>Tecnologias</h5>
+    <ul>
+      {% for tool in stack %}
+      <li><a href="{% url 'stack' tool.id %}">{{tool.name}}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

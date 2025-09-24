@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+  <h1>Home</h1>
+  {% include './includes/partial.html' with nombre='Home' %}
+  <ul>
+  {% for day in days %}
+    {% if day.type == 'int' %}
+      <li><a href="{% url 'day-number' day.value %}">{{ day.value }}</a></li>
+    {% elif day.type == 'str' %}
+      <li><a href="{% url 'day-string' day.value %}">{{ day.name }}</a></li>
+    {% endif %}
+  {% endfor %}
+</ul>
+{% endblock %}
