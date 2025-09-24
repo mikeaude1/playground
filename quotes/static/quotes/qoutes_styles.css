@@ -1,0 +1,12 @@
+ul{
+  font-size: 20px;
+  list-style-type: none;
+}
+a{
+  text-decoration: none;
+  font-size: 20px;
+}
+a:hover{
+  background-color: rgb(96, 22, 53) ;
+  text-decoration: underline;
+}

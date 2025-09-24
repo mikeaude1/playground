@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}Home{% endblock %}
+{% block page_styles %}
+  <link rel="stylesheet" href="{% static 'quotes/qoutes_styles.css' %}">
+{% endblock page_styles%}
 {% block content %}
   <h1>Home</h1>
   {% include './includes/partial.html' with nombre='Home' %}

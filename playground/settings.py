@@ -124,7 +124,10 @@ AUTH_PASSWORD_VALIDATORS = [
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "playground" / "styles",
+    BASE_DIR / "static" ,
+    BASE_DIR / "playground" / "quotes" / "static" / "quotes",
+    BASE_DIR / "playground" / "landing" / "static" / "landing",
+    BASE_DIR / "playground" / "static" / "styles",
 ]
 
 # Default primary key field type
